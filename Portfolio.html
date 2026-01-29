@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <style>
+        /* --- CSS VARIABLES & RESET --- */
+        :root {
+            --bg-color: #0f172a; /* Dark Navy/Black */
+            --card-bg: #1e293b;
+            --text-color: #e2e8f0;
+            --accent-1: #06b6d4; /* Cyan */
+            --accent-2: #d946ef; /* Magenta */
+            --gradient: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- FLOATING NAVIGATION CONTAINER --- */
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%); /* Centers the menu */
+            width: 90%;
+            max-width: 500px;
+            
+            background: rgba(15, 23, 42, 0.9); /* Dark background */
+            backdrop-filter: blur(10px);       /* Blur effect behind menu */
+            border-radius: 50px;               /* Pill shape */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            /* Container Shadow (The "Lifted" look) */
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            
+            padding: 8px 15px;
+            z-index: 1000;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            
+            /* Mobile Horizontal Scroll */
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch; 
+        }
+        
+        /* Hide Scrollbar */
+        nav ul::-webkit-scrollbar { display: none; }
+        
+        nav ul li {
+            margin: 0 5px;
+        }
+        
+        /* --- LINK STYLES --- */
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 8px 16px;
+            border-radius: 30px; /* Rounded buttons */
+            transition: background 0.3s ease;
+            display: block;
+        }
+        
+        /* --- FIXED MOBILE STICKY STATE --- */
+
+        /* 1. The Active Class (Controlled by scrolling/JS) */
+        /* This is the ONLY rule that keeps the color permanent */
+        nav ul li a.active {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+        }
+        
+        /* 2. Hover Effect (ONLY for Mouse/Desktop) */
+        /* This specific code block prevents the "Sticky" color on mobile phones */
+        @media (hover: hover) {
+            nav ul li a:hover {
+                background: var(--gradient);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
+        }
+        
+        /* 3. Reset "Focus/Click" Color */
+        /* Ensures clicking doesn't freeze the color on the old button */
+        nav ul li a:focus {
+            outline: none;
+            background: none;
+            color: var(--text-color); /* Resets to default white */
+        }
+    
+
+
+
+
+
+        /* Hide scrollbar for cleaner look */
+        nav ul::-webkit-scrollbar { display: none; }
+        nav ul { -ms-overflow-style: none; scrollbar-width: none; }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* --- SECTIONS GENERAL --- */
+        section {
+            padding: 80px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+            min-height: 100vh; /* Make each section fill screen mostly */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .profile-img {
+        width: 200px;           /* Image size */
+        height: 200px;
+        border-radius: 50%;     /* Makes it round */
+        object-fit: cover;      /* Prevents image distortion */
+        border: 4px solid var(--accent-1); /* Cyan border */
+        /* This creates the Neon Glow effect: */
+        box-shadow: 0 0 20px var(--accent-1), 0 0 40px var(--accent-2); 
+        margin-bottom: 25px;
+        }
+
+    
+
+        /* --- HERO SECTION --- */
+        #hero {
+            text-align: center;
+            padding-top: 120px;
+        }
+
+        #hero h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+
+        #hero h3 {
+            font-size: 1.5rem;
+            color: var(--accent-1);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* --- IMPROVED TIMELINE (Message Card Style) --- */
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+        
+        /* The Central Line (Now with Fade In/Out Gradient) */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            /* Gradient: Transparent -> Cyan -> Transparent */
+            background: linear-gradient(to bottom, transparent, var(--accent-1), transparent);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+            border-radius: 2px;
+        }
+        
+        /* The Container for each item */
+        .container-box {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            opacity: 0; /* Hidden for animation */
+            transform: translateY(20px);
+            transition: all 0.6s ease-in-out;
+        }
+        
+        .container-box.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Left and Right positioning */
+        .left { left: 0; }
+        .right { left: 50%; }
+        
+        /* The "Card" itself (Message Bubble Look) */
+        .content {
+            padding: 20px 25px;
+            background: var(--card-bg);
+            border-radius: 15px; /* Rounded corners like a chat bubble */
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05); /* Very subtle border */
+            /* Minimal Shadow */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+        }
+        
+        /* The Timeline Dots (Neon Circles) */
+        .container-box::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: var(--bg-color); /* Dark center */
+            border: 3px solid var(--accent-2); /* Magenta ring */
+            top: 25px; /* Aligns with the top of the card */
+            z-index: 10;
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-2);
+        }
+        
+        /* Positioning the dots */
+        .left::after { right: -10px; }
+        .right::after { left: -10px; }
+        
+        /* --- SPEECH BUBBLE ARROWS (Triangles) --- */
+        /* This creates the small triangle pointing to the line */
+        .content::before {
+            content: " ";
+            position: absolute;
+            top: 22px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            z-index: 1;
+        }
+        
+        /* Arrow for Left Side Cards (Points Right) */
+        .left .content::before {
+            right: -10px;
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent var(--card-bg);
+        }
+        
+        /* Arrow for Right Side Cards (Points Left) */
+        .right .content::before {
+            left: -10px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent var(--card-bg) transparent transparent;
+        }
+        
+        /* --- MOBILE ADJUSTMENTS --- */
+        @media screen and (max-width: 600px) {
+            /* Move line to the left */
+            .timeline::after { left: 31px; }
+            
+            /* Make all boxes full width */
+            .container-box { width: 100%; padding-left: 70px; padding-right: 25px; }
+            
+            /* Fix Arrow directions for mobile (All point left) */
+            .content::before {
+                left: -10px !important;
+                border-width: 10px 10px 10px 0 !important;
+                border-color: transparent var(--card-bg) transparent transparent !important;
+            }
+        
+            /* Fix Dot positions */
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+        }
+
+        /* --- SKILLS --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent-1);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+        }
+
+        /* --- CONTACT FORM --- */
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: var(--bg-color);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 5px;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-2);
+        }
+
+        /* --- MEDIA QUERIES (Mobile Adjustments) --- */
+        @media screen and (max-width: 600px) {
+            #hero h1 { font-size: 2.5rem; }
+            
+            /* Adjust timeline for mobile */
+            .timeline::after { left: 31px; }
+            .container-box { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .container-box::after { left: 21px; }
+            .left::after, .right::after { left: 21px; }
+            .right { left: 0%; }
+            
+            nav ul { justify-content: flex-start; } /* Align left to allow scroll */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="hero">
+        <img src="profile.jpg" alt="Profile Photo" class="profile-img">
+        
+        <h1>Hello, I'm <span style="color:var(--accent-1)">Aryan</span></h1>
+        
+        <p>Designing structures and digital experiences.</p>
+        <br>
+        
+        <div style="margin-top: 20px;">
+            <a href="#contact" class="btn">Get In Touch</a>
+            <a href="your-resume.pdf" download class="btn" style="background: transparent; border: 2px solid var(--accent-1); margin-left: 10px;">
+                Download CV
+            </a>
+        </div>
+    </header>
+
+
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="content" style="text-align: center;">
+            <p>
+                I am a passionate Civil Engineering student based in Rampura Dabri, Rajasthan. 
+                I currently study at SVNIT and have a deep interest in Building Technology, 
+                Engineering Graphics, and Project Management.
+                <br><br>
+                When I'm not calculating loads or designing structures, I enjoy creating 
+                engaging video reels and exploring digital creativity.
+            </p>
+        </div>
+    </section>
+
+    <section id="timeline">
+        <h2>My Journey</h2>
+        <div class="timeline">
+            
+            <div class="container-box left">
+                <div class="content">
+                    <h3 style="color:var(--accent-1)">2026 - Present</h3>
+                    <h4 style="margin-bottom:5px;">SVNIT Student</h4>
+                    <p style="font-size:0.9rem; opacity:0.8;">
+                        Focusing on Engineering Graphics, Environmental Pollution Management, and Mathematics.
+                    </p>
+                </div>
+            </div>
+    
+            <div class="container-box right">
+                <div class="content">
+                    <h3 style="color:var(--accent-2)">2025 - Started</h3>
+                    <h4 style="margin-bottom:5px;">Unreal Engineer</h4>
+                    <p style="font-size:0.9rem; opacity:0.8;">
+                        Creating creative reels, farming-themed stories, and visual storytelling projects.
+                    </p>
+                </div>
+            </div>
+    
+            <div class="container-box left">
+                <div class="content">
+                    <h3 style="color:var(--accent-1)">2025 - Design</h3>
+                    <h4 style="margin-bottom:5px;">Staircase Project</h4>
+                    <p style="font-size:0.9rem; opacity:0.8;">
+                        Executed detailed plans for a half-turn staircase project with specific load calculations.
+                    </p>
+                </div>
+            </div>
+    
+        </div>
+    </section>
+
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card"><h3>AutoCAD & Graphics</h3><p>Engineering Drawing</p></div>
+            <div class="skill-card"><h3>Mathematics</h3><p>Linear Algebra, Calculus</p></div>
+            <div class="skill-card"><h3>Management</h3><p>Project Planning & Inventory</p></div>
+            <div class="skill-card"><h3>Web Basics</h3><p>HTML, CSS</p></div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form>
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea rows="5" placeholder="Message"></textarea>
+            <button type="submit" class="btn" style="border:none; cursor:pointer; width:100%;">Send Message</button>
+        </form>
+    </section>
+
+    <script>
+        // Intersection Observer for Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Target timeline boxes
+        const boxes = document.querySelectorAll('.container-box');
+        boxes.forEach(box => observer.observe(box));
+
+        // Smooth Scroll for Safari/Older Browsers fallback
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <script>
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('nav ul li a');
+    
+        // 1. SCROLL LISTENER (The Main Brain)
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            // Find which section is on screen
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // The -150 offset aligns the highlight with your vision
+                if (window.scrollY >= (sectionTop - 150)) {
+                    current = section.getAttribute('id');
+                }
+            });
+    
+            // "Clean Sweep": Remove active from ALL links first
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                
+                // Apply active ONLY to the current section match
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+            
+        });
+    </script>
+
+
+
+</body>
+</html>
